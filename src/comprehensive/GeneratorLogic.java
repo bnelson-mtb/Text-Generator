@@ -33,15 +33,32 @@ import java.util.HashMap;
  * @version 4/13/25
  */
 
-public class LibraryLogic {
-	private HashMap<String, WordEntry> library;
+public class GeneratorLogic {
 	
-	public static void feedFile(String fileName) {
+	/**
+	 * 
+	 * @param fileName
+	 * @return
+	 */
+	public static HashMap<String, WordEntry> createLibraryFromFile(String fileName) {
 		// generates and constructs the library, which is to be used inside GeneratorLogic.
-		//this.library = parseFile(fileName);
+		//this.library = parseFile(fileName);\
+		HashMap<String, WordEntry> library = new HashMap<String, WordEntry>();
+		
+		
+		return library;
 	}
 	
-	public static String generateText() {
+	/**
+	 * 
+	 * 
+	 * @param library
+	 * @param seed
+	 * @param k
+	 * @param mode
+	 * @return
+	 */
+	public static String generateText(HashMap<String, WordEntry> library, String seed, Integer k, String mode) {
 		String output = "";
 		
 		// from library, calculate the frequency of words in the library and from there generate the next word.
