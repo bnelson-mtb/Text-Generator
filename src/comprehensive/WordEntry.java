@@ -12,10 +12,12 @@ containing the words that come after the stored word.
 */
 
 public class WordEntry {
+	private String word;
     private int frequency;
     private HashMap<String, Integer> adjacentWords;
-
-    public WordEntry() {
+    
+    public WordEntry(String word) {
+    	this.word = word;
         this.frequency = 0;
         this.adjacentWords = new HashMap<>();
     }
