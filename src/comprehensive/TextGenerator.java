@@ -1,6 +1,6 @@
 package comprehensive;
 
-import java.util.HashMap;
+import java.io.IOException;
 
 public class TextGenerator {
 
@@ -13,7 +13,13 @@ public class TextGenerator {
 	 */
 	public static void main(String[] args) {
 		Generator generator = new Generator();
-		generator.createLibraryFromFile(args[0]);
+		
+		try {
+			generator.createLibraryFromFile(args[0]);
+		} catch (IOException fileError) {
+			fileError.printStackTrace();
+		}
+		
 		System.out.println(generator.generateText(args[1], Integer.valueOf(args[2]), args[3]));
 	}
 }
