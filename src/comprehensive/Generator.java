@@ -92,11 +92,24 @@ public class Generator {
 	 * @return
 	 */
 	public String generateText(String seed, Integer k, String mode) {
-
-		String output = "";
-
-		// from library, calculate the frequency of words in the library and from there
-		// generate the next word.
+		StringBuilder output = new StringBuilder();
+		
+		
+		
+		
+		
+		switch(mode) {
+			case "probable":
+			
+			case "random":
+			
+			case "deterministic":
+			
+				
+			default:
+				return null;
+					
+		}
 
 		return output;
 	}

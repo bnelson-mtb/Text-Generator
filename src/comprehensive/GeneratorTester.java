@@ -15,11 +15,24 @@ class GeneratorTester {
 	}
 
 	@Test
-	void testBuildLibrary() throws IOException {
-		Generator actual = new Generator();
+	void testBuildLibraryAbc() throws IOException {
+		Generator generator = new Generator();
 				
-		actual.createLibraryFromFile("C:\\Users\\kentw\\Downloads\\abc.txt");
-		// assertThrows();
+		generator.createLibraryFromFile("C:\\Users\\brady\\Downloads\\abc.txt");
+	}
+	
+	@Test
+	void testBuildLibraryTricky() throws IOException {
+		Generator generator = new Generator();
+				
+		generator.createLibraryFromFile("C:\\Users\\brady\\Downloads\\trickyFormatting.txt");
+	}
+	
+	@Test
+	void testBuildLibraryHelloWord() throws IOException {
+		Generator generator = new Generator();
+				
+		generator.createLibraryFromFile("C:\\Users\\brady\\Downloads\\helloWorld.txt");
 	}
 
 }

@@ -18,7 +18,7 @@ public class WordEntry {
     
     public WordEntry(String word) {
     	this.word = word;
-        this.frequency = 1;
+        this.frequency = 0;
         this.adjacentWords = new HashMap<>();
     }
 
