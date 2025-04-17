@@ -12,7 +12,13 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
- * 
+ * This class breaks down the input file passed into main and creates
+ * a hash table out of it. The hash table stores words as keys and WordEntries 
+ * as its values (see the documentation of WordEntry for more about this class!). Additionally,
+ * this class provides 3 unique methods for generating text based on the probability
+ * of a certain word coming after the first. They include random, which randomly chooses
+ * a word based on its probability (for example, a word that occurs 50% of the time 
+ * has a higher chance of being chosen than a word that occurs 25% of the time.)
  *
  * @author Kent Wilkison and Brady Nelson
  * @version 4/13/25
@@ -114,7 +120,7 @@ public class Generator {
 	    
 		// If mode is "probable", call separate method (logic is different)
 		if (mode.equalsIgnoreCase("probable")) {
-			return createProbabilitiesList(seed, k);
+			return getNextProbableWord(seed, k);
 		}
 	    
 		// If other modes, start creating generated string
@@ -174,8 +180,19 @@ public class Generator {
 		
 		return output.toString().trim();
 	}
-
-	private String createProbabilitiesList(String seed, Integer k) {
+	
+	/**
+	 * Returns the first k words that are the most probable to come after the
+	 * seed. 
+	 * 
+	 * If the size of seed's adjacency list is smaller than k, only 
+	 * produce up to the size of the adjacency list. 
+	 * 
+	 * @param seed
+	 * @param k
+	 * @return
+	 */
+	private String getNextProbableWord(String seed, Integer k) {
 		
 		// Get the adjacent words list from the seed word
 		WordEntry seedValue = library.get(seed);
