@@ -171,6 +171,10 @@ public class Generator {
 		
 		// Build resulting string according to the 'k' specified
 		StringBuilder result = new StringBuilder();
+
+		if (adjacentList.size() < k) {
+			k = adjacentList.size();
+		}
 		for (int i = 0; i < k; i++) {
 			result.append(entryList.get(i).getKey());
 			result.append(" ");
