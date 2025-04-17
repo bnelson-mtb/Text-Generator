@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -118,23 +119,18 @@ public class Generator {
 			
 			switch (mode.toLowerCase()) {
 				case "probable":
-					int total = 0;
-					for (int freq : adjacent.values())
-						total += freq;
-					
-					int r = rand.nextInt(total);
-					for (Map.Entry<String, Integer> e : adjacent.entrySet()) {
-						r -= e.getValue();
-						if (r < 0) {
-							nextWord = e.getKey();
-							break;
-						}
+					PriorityQueue<String> probs = new PriorityQueue<String>();
+					int adjSize = adjacent.size();
+					for (String word : adjacent.keySet()) {
+						probs.put(word, (adjacent.get(word) / adjSize));
 					}
+					probs.sort();
+						
+				
+					
 					break;
 				case "random":
-					// calculate their probabilites and pick the ones with greater probabilites more frequently than the ones with smaller frequencies.
-					List<String> keys = new ArrayList<>(adjacent.keySet());
-					nextWord = keys.get(rand.nextInt(keys.size()));
+					///
 					break;
 				case "deterministic":
 					int maxFreq = -1;
