@@ -3,6 +3,7 @@ package comprehensive;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -115,6 +116,7 @@ public class Generator {
 		StringBuilder output = new StringBuilder(currentWord);
 	    output.append(currentWord);
 	    
+	    // Generate "k" words, 1 at a time, using random or deterministic methods.
 		for (int i = 0; i < k; i++) {
 			// this creates the general structure/data by which we will work with to find the seed's next word.
 			WordEntry entry = library.get(currentWord);
@@ -128,8 +130,9 @@ public class Generator {
 			
 			switch (mode.toLowerCase()) {
 				case "random":
-					/// implement
+					nextWord = getRandomNextWord(adjacent);
 					break;
+					
 				case "deterministic":
 					int maxFreq = -1;
 					for (Map.Entry<String, Integer> e : adjacent.entrySet()) {
@@ -151,15 +154,50 @@ public class Generator {
 
 	private String createProbabilitiesList(String seed, Integer k) {
 		// Get the adjacent words list from the seed word
-		WordEntry entry = library.get(seed);
-		HashMap<String, Integer> adjacent = entry.getAdjacentWords();
+		WordEntry seedValue = library.get(seed);
+		HashMap<String, Integer> adjacentList = seedValue.getAdjacentWords();
+		List<Map.Entry<String, Integer>> entryList = new ArrayList<>(adjacentList.entrySet());
 		
-		adjacent.get(word) / adjSize);
+		// Sort the list
+		Collections.sort(entryList, (a, b) -> b.getValue().compareTo(a.getValue()));
 		
+		// Build result string
+		StringBuilder result = new StringBuilder();
+		for (Map.Entry<String, Integer> entryItem : entryList) {
+			if (result.length() > 0) {
+				result.append(" ");
+			}
+		}
 		
+		return result.toString();
 		
-		return rankedList;
+	}
+	
+	/** 
+	 * Computes the next word using a weighted probability algorithm.
+	 * @return
+	 */
+	private String getRandomNextWord(Map<String, Integer> adjacentList) {
+		String nextRandomWord = "";
 		
+		int total = 0;
+		
+		for (int freq : adjacentList.values()) {
+			total += freq;
+		}
+
+		// pick a random value between [0, total]
+		int rand = new Random().nextInt(total) + 1;
+		
+		// Iterate through entries and pick the one random falls into.
+		for (Map.Entry<String, Integer> entry : adjacentList.entrySet()) {
+			rand = rand - entry.getValue();
+			if (rand <= 0) {
+				nextRandomWord = entry.getKey();
+			}
+		}
+		
+		return nextRandomWord;
 	}
 
 }
