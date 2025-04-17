@@ -7,9 +7,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.PriorityQueue;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
@@ -86,7 +86,7 @@ public class Generator {
 			}
 		}
 
-		System.out.println("Library created with " + library.size() + " unique words.");
+		// System.out.println("Library created with " + library.size() + " unique words.");
 	}
 
 	/**
@@ -99,7 +99,7 @@ public class Generator {
 	 * @return
 	 */
 	public String generateText(String seed, Integer k, String mode) {
-		// Convert seed to lowercase to match our library keys
+		// Convert seed to lower-case to match our library keys
 	    String currentWord = seed.toLowerCase();
 	    
 	    // Check if seed exists in library
@@ -114,37 +114,40 @@ public class Generator {
 	    
 		// If other modes, start creating generated string, starting with seed
 		StringBuilder output = new StringBuilder(currentWord);
-	    output.append(currentWord);
+	    //output.append(currentWord);
 	    
 	    // Generate "k" words, 1 at a time, using random or deterministic methods.
 		for (int i = 0; i < k; i++) {
-			// this creates the general structure/data by which we will work with to find the seed's next word.
-			WordEntry entry = library.get(currentWord);
 			
-			if (entry == null || entry.getAdjacentWords().isEmpty()) {
+			// this creates the general data of the current word by which we will work with
+			WordEntry currentEntry = library.get(currentWord);
+			
+			if (currentEntry == null || currentEntry.getAdjacentWords().isEmpty()) {
 				break;
 			}
 			
-			HashMap<String, Integer> adjacent = entry.getAdjacentWords();
+			HashMap<String, Integer> adjWords = currentEntry.getAdjacentWords();
 			String nextWord = null;
 			
 			switch (mode.toLowerCase()) {
 				case "random":
-					nextWord = getRandomNextWord(adjacent);
+					nextWord = getRandomNextWord(adjWords);
 					break;
 					
 				case "deterministic":
 					int maxFreq = -1;
-					for (Map.Entry<String, Integer> e : adjacent.entrySet()) {
-						if (e.getValue() > maxFreq || (e.getValue() == maxFreq && e.getKey().compareTo(nextWord) < 0)) {
-							maxFreq = e.getValue();
-							nextWord = e.getKey();
+					for (Map.Entry<String, Integer> entry : adjWords.entrySet()) {
+						if (entry.getValue() > maxFreq || (entry.getValue() == maxFreq && entry.getKey().compareTo(nextWord) < 0)) {
+							maxFreq = entry.getValue();
+							nextWord = entry.getKey();
 						}
 					}
 					break;
+					
 				default:
 					throw new IllegalArgumentException("Unknown mode: " + mode);
 			}
+			
 			output.append(" ").append(nextWord);
 			currentWord = nextWord;
 		}
@@ -163,14 +166,12 @@ public class Generator {
 		
 		// Build result string
 		StringBuilder result = new StringBuilder();
-		for (Map.Entry<String, Integer> entryItem : entryList) {
-			if (result.length() > 0) {
-				result.append(" ");
-			}
+		for (int i = 0; i < k; i++) {
+			result.append(entryList.get(i).getKey());
+			result.append(" ");
 		}
 		
 		return result.toString();
-		
 	}
 	
 	/** 
