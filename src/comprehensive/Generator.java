@@ -57,15 +57,9 @@ public class Generator {
 		// Clear any existing library data
 		library.clear();
 
-		// Define a pattern that splits on whitespace and punctuation except underscores
-		// and apostrophes
-		// This pattern means: any whitespace OR any punctuation except underscore and
-		// apostrophe
-		Pattern wordSplitPattern = Pattern.compile("[\\s]|[\\p{Punct}&&[^_']]");
-
 		try (Scanner scanner = new Scanner(new File(filePath))) {
 			// Set the delimiter pattern
-			scanner.useDelimiter(wordSplitPattern);
+			scanner.useDelimiter("[^\\p{L}\\p{N}_']+");
 
 			String previousWord = null;
 
