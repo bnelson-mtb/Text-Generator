@@ -3,7 +3,8 @@ import java.util.HashMap;
 
 /**
  
-This class represents one entry in the CompiledFile class. It
+This class represents one entry. It acts as a compact way to store multiple
+values inside the Generator class's hashtable. More specifically, it
 stores the word, its frequency in the list, and a linked list
 containing the words that come after the stored word.
 <il> AdjacentWords is a HashMap that stores the word as its {@code Key} and its frequency after this word as its {@code value}.
