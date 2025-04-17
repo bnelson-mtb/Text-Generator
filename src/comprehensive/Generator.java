@@ -104,7 +104,8 @@ public class Generator {
 	 */
 	public String generateText(String seed, Integer k, String mode) {
 		// Convert seed to lower-case to match our library keys
-	    String currentWord = seed.toLowerCase();
+	    String seedLower = seed.toLowerCase();
+	    String currentWord = seedLower;
 	    
 	    // Check if seed exists in library
 	    if (!library.containsKey(currentWord)) {
@@ -120,14 +121,22 @@ public class Generator {
 		StringBuilder output = new StringBuilder(currentWord);
 	    
 	    // Generate "k" words, 1 at a time, using random or deterministic methods
-		for (int i = 0; i < k; i++) {
+		for (int i = 0; i < k - 1; i++) {
 			
 			// Instantiates the data of the word we will use on this iteration
 			WordEntry currentEntry = library.get(currentWord);
 			
+			// If word has no adjacent words, restart from seed
 			if (currentEntry == null || currentEntry.getAdjacentWords().isEmpty()) {
-				break;
-			}
+				output.append(" ").append(seed);
+				i++;
+				currentEntry = library.get(seedLower);
+	            
+	            // If even the seed has no adjacent words, we have to break
+	            if (currentEntry == null || currentEntry.getAdjacentWords().isEmpty()) {
+	                break;
+	            }
+	        }
 			
 			HashMap<String, Integer> adjWords = currentEntry.getAdjacentWords();
 			String nextWord = null;
@@ -140,11 +149,17 @@ public class Generator {
 				case "deterministic":
 					// Optimization loop that find the word with highest frequency
 					int maxFreq = -1;
-					for (Map.Entry<String, Integer> entry : adjWords.entrySet()) {
-						if (entry.getValue() > maxFreq || (entry.getValue() == maxFreq && entry.getKey().compareTo(nextWord) < 0)) {
-							maxFreq = entry.getValue();
-							nextWord = entry.getKey();
-						}
+					nextWord = null;
+					for (Map.Entry<String,Integer> e : adjWords.entrySet()) {
+					  int freq = e.getValue();
+					  String word  = e.getKey();
+					  if (freq > maxFreq) {
+					    maxFreq = freq;
+					    nextWord = word;
+					  }
+					  else if (freq == maxFreq && word.compareTo(nextWord) < 0) {
+					    nextWord = word;
+					  }
 					}
 					break;
 					
@@ -152,11 +167,12 @@ public class Generator {
 					throw new IllegalArgumentException("Unknown mode: " + mode);
 			}
 			
+			
 			output.append(" ").append(nextWord);
 			currentWord = nextWord;
 		}
 		
-		return output.toString();
+		return output.toString().trim();
 	}
 
 	private String createProbabilitiesList(String seed, Integer k) {
@@ -177,7 +193,8 @@ public class Generator {
 		}
 		for (int i = 0; i < k; i++) {
 			result.append(entryList.get(i).getKey());
-			result.append(" ");
+			if (i < k - 1)
+				result.append(" ");
 		}
 		
 		return result.toString();
@@ -204,7 +221,7 @@ public class Generator {
 				return entry.getKey();
 			}
 		}
-		return " ";
+		return "";
 	}
 
 }
