@@ -106,16 +106,19 @@ public class Generator {
 	        return "Error: Seed word '" + currentWord + "' not found in the input text.";
 	    }
 	    
-	    StringBuilder output = new StringBuilder(currentWord);
-		
-		boolean includeSeed = !mode.equalsIgnoreCase("probable");
-		if (includeSeed) {
-			output.append(currentWord);
+		// If mode is "probable", call separate method (logic is different)
+		if (mode.equalsIgnoreCase("probable")) {
+			return createProbabilitiesList(seed, k);
 		}
-		
+	    
+		// If other modes, start creating generated string, starting with seed
+		StringBuilder output = new StringBuilder(currentWord);
+	    output.append(currentWord);
+	    
 		for (int i = 0; i < k; i++) {
 			// this creates the general structure/data by which we will work with to find the seed's next word.
 			WordEntry entry = library.get(currentWord);
+			
 			if (entry == null || entry.getAdjacentWords().isEmpty()) {
 				break;
 			}
@@ -124,17 +127,6 @@ public class Generator {
 			String nextWord = null;
 			
 			switch (mode.toLowerCase()) {
-				case "probable":
-					PriorityQueue<String> probs = new PriorityQueue<String>();
-					int adjSize = adjacent.size();
-					for (String word : adjacent.keySet()) {
-						probs.put(word, (adjacent.get(word) / adjSize));
-					}
-					probs.sort();
-						
-				
-					
-					break;
 				case "random":
 					/// implement
 					break;
@@ -155,6 +147,19 @@ public class Generator {
 		}
 		
 		return output.toString();
+	}
+
+	private String createProbabilitiesList(String seed, Integer k) {
+		// Get the adjacent words list from the seed word
+		WordEntry entry = library.get(seed);
+		HashMap<String, Integer> adjacent = entry.getAdjacentWords();
+		
+		adjacent.get(word) / adjSize);
+		
+		
+		
+		return rankedList;
+		
 	}
 
 }
