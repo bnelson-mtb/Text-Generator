@@ -98,9 +98,15 @@ public class Generator {
 	 * @return
 	 */
 	public String generateText(String seed, Integer k, String mode) {
-		StringBuilder output = new StringBuilder();
-		String currentWord = seed.toLowerCase();
-		Random rand = new Random();
+		// Convert seed to lowercase to match our library keys
+	    String currentWord = seed.toLowerCase();
+	    
+	    // Check if seed exists in library
+	    if (!library.containsKey(currentWord)) {
+	        return "Error: Seed word '" + currentWord + "' not found in the input text.";
+	    }
+	    
+	    StringBuilder output = new StringBuilder(currentWord);
 		
 		boolean includeSeed = !mode.equalsIgnoreCase("probable");
 		if (includeSeed) {
@@ -130,7 +136,7 @@ public class Generator {
 					
 					break;
 				case "random":
-					///
+					/// implement
 					break;
 				case "deterministic":
 					int maxFreq = -1;
@@ -144,10 +150,11 @@ public class Generator {
 				default:
 					throw new IllegalArgumentException("Unknown mode: " + mode);
 			}
+			output.append(" ").append(nextWord);
+			currentWord = nextWord;
 		}
 		
-		
-		return null;
+		return output.toString();
 	}
 
 }
