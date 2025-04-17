@@ -184,8 +184,6 @@ public class Generator {
 	 * @return
 	 */
 	private String getRandomNextWord(Map<String, Integer> adjacentList) {
-		String nextRandomWord = "";
-		
 		// Add up total frequency
 		int total = 0;
 		for (int freq : adjacentList.values()) {
@@ -202,8 +200,7 @@ public class Generator {
 				return entry.getKey();
 			}
 		}
-		
-		return nextRandomWord;
+		return " ";
 	}
 
 }
