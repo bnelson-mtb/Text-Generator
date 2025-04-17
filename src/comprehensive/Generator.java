@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
@@ -31,10 +30,15 @@ public class Generator {
 	 * the current word (current) and one to the next word (next). Stores the
 	 * processed words in this.library.
 	 * 
-	 * As the file is scanned, the following steps are performed: 1. Inspect the
-	 * word current points to: - If the word is not in the library, create a new
-	 * WordEntry for it. - If it already exists, increment its occurrence count. 2.
-	 * Inspect the word next points to: - Within AdjacentWords, apply the same logic
+	 * As the file is scanned, the following steps are performed:
+	 * 
+	 * 1. Inspect the word current points to:
+	 * - If the word is not in the library, create a new
+	 * WordEntry for it.
+	 * - If it already exists, increment its occurrence count.
+	 * 
+	 * 2. Inspect the word next points to:
+	 * - Within AdjacentWords, apply similar logic
 	 * as in step 1.
 	 * 
 	 * After processing, the current and next pointers advance to the next pair of
@@ -68,7 +72,7 @@ public class Generator {
 					continue;
 				}
 
-				// Convert to lowercase for consistency
+				// Convert to lower-case for consistency
 				word = word.toLowerCase();
 
 				// Add or update this word in our library
@@ -112,14 +116,13 @@ public class Generator {
 			return createProbabilitiesList(seed, k);
 		}
 	    
-		// If other modes, start creating generated string, starting with seed
+		// If other modes, start creating generated string
 		StringBuilder output = new StringBuilder(currentWord);
-	    //output.append(currentWord);
 	    
-	    // Generate "k" words, 1 at a time, using random or deterministic methods.
+	    // Generate "k" words, 1 at a time, using random or deterministic methods
 		for (int i = 0; i < k; i++) {
 			
-			// this creates the general data of the current word by which we will work with
+			// Instantiates the data of the word we will use on this iteration
 			WordEntry currentEntry = library.get(currentWord);
 			
 			if (currentEntry == null || currentEntry.getAdjacentWords().isEmpty()) {
@@ -135,6 +138,7 @@ public class Generator {
 					break;
 					
 				case "deterministic":
+					// Optimization loop that find the word with highest frequency
 					int maxFreq = -1;
 					for (Map.Entry<String, Integer> entry : adjWords.entrySet()) {
 						if (entry.getValue() > maxFreq || (entry.getValue() == maxFreq && entry.getKey().compareTo(nextWord) < 0)) {
@@ -156,6 +160,7 @@ public class Generator {
 	}
 
 	private String createProbabilitiesList(String seed, Integer k) {
+		
 		// Get the adjacent words list from the seed word
 		WordEntry seedValue = library.get(seed);
 		HashMap<String, Integer> adjacentList = seedValue.getAdjacentWords();
@@ -164,7 +169,7 @@ public class Generator {
 		// Sort the list
 		Collections.sort(entryList, (a, b) -> b.getValue().compareTo(a.getValue()));
 		
-		// Build result string
+		// Build resulting string according to the 'k' specified
 		StringBuilder result = new StringBuilder();
 		for (int i = 0; i < k; i++) {
 			result.append(entryList.get(i).getKey());
@@ -181,20 +186,20 @@ public class Generator {
 	private String getRandomNextWord(Map<String, Integer> adjacentList) {
 		String nextRandomWord = "";
 		
+		// Add up total frequency
 		int total = 0;
-		
 		for (int freq : adjacentList.values()) {
 			total += freq;
 		}
 
-		// pick a random value between [0, total]
+		// Pick a random value between [0, total]
 		int rand = new Random().nextInt(total) + 1;
 		
 		// Iterate through entries and pick the one random falls into.
 		for (Map.Entry<String, Integer> entry : adjacentList.entrySet()) {
 			rand = rand - entry.getValue();
 			if (rand <= 0) {
-				nextRandomWord = entry.getKey();
+				return entry.getKey();
 			}
 		}
 		
