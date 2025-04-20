@@ -14,10 +14,10 @@ import timing.TimingExperiment;
  */
 public class NextKWordsTimingExperiment extends TimingExperiment {
     private static final String problemSizeDescription = "k (words generated)";
-    private static final int problemSizeMin            =   100000000;
-    private static final int problemSizeCount          =   100;
-    private static final int problemSizeStep           =   100000000;
-    private static final int experimentIterationCount  =   50;
+    private static final int problemSizeMin            =   100000;
+    private static final int problemSizeCount          =   10;
+    private static final int problemSizeStep           =   100000;
+    private static final int experimentIterationCount  =   20;
     // Fixed‐size input for library building:
     private static final int INPUT_WORD_COUNT  = 50_000;
     private static final int INPUT_VOCAB_SIZE  =    500;

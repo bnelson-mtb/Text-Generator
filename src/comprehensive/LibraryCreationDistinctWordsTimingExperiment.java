@@ -11,9 +11,9 @@ import java.io.PrintWriter;
  */
 public class LibraryCreationDistinctWordsTimingExperiment extends TimingExperiment {
     private static final String problemSizeDescription = "distinct word count";
-    private static final int problemSizeMin            = 10000;
+    private static final int problemSizeMin            = 100000;
     private static final int problemSizeCount          = 10;
-    private static final int problemSizeStep           = 10000;
+    private static final int problemSizeStep           = 100000;
     private static final int experimentIterationCount  = 20;
 
     private String filePath;

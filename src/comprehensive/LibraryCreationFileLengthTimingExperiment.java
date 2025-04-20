@@ -11,9 +11,9 @@ import timing.TimingExperiment;
  */
 public class LibraryCreationFileLengthTimingExperiment extends TimingExperiment {
     private static final String problemSizeDescription = "file word count";
-    private static final int problemSizeMin            =  10_000;
+    private static final int problemSizeMin            =  100000;
     private static final int problemSizeCount          =  10;
-    private static final int problemSizeStep           =  10_000;
+    private static final int problemSizeStep           =  100000;
     private static final int experimentIterationCount  =  20;
     // Keep vocabulary small (e.g., 10 distinct words)
     private static final int VOCAB_SIZE = 10;
