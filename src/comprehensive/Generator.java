@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
 /**
  * This class breaks down the input file passed into main and creates
@@ -114,7 +113,7 @@ public class Generator {
 	    
 		// If mode is "probable", call separate method (logic is different)
 		if (mode.equalsIgnoreCase("probable")) {
-			return getNextProbableWord(seed, k);
+			return getNextProbableWords(seed, k);
 		}
 	    
 		// If other modes, start creating generated string
@@ -186,7 +185,7 @@ public class Generator {
 	 * @param k
 	 * @return
 	 */
-	private String getNextProbableWord(String seed, Integer k) {
+	private String getNextProbableWords(String seed, Integer k) {
 		
 		// Get the adjacent words list from the seed word
 		WordEntry seedValue = library.get(seed);
