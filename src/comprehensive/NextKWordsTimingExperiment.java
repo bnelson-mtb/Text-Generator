@@ -61,10 +61,10 @@ public class NextKWordsTimingExperiment extends TimingExperiment {
     @Override
     protected void runComputation() {
         // Time how long it takes to generate k words in specified mode
-    	for(int i = 0; i < 5_000; i++) {
-    		  generator.generateText("1", 1_000, "probable");
-    		}
-        generator.generateText("1", currentProblemSize, "probable");
+//    	for(int i = 0; i < 5_000; i++) {
+//    		  generator.generateText("1", 1_000, "probable");
+//    		}
+        generator.generateText("1", currentProblemSize, "random");
 }
     
 }

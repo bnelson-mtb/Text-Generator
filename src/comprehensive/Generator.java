@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 /**
  * This class breaks down the input file passed into main and creates
@@ -56,9 +57,13 @@ public class Generator {
 		// Clear any existing library data
 		library.clear();
 
+		Pattern delim = Pattern.compile(
+			    "[^\\p{L}\\p{N}\\p{Pc}'\\u2018\\u2019]+"   // letters, digits, ANY underscore, apostrophes
+			);
+		
 		try (Scanner scanner = new Scanner(new File(filePath))) {
 			// Set the delimiter pattern
-			scanner.useDelimiter("[^\\p{L}\\p{N}_']+");
+			scanner.useDelimiter(delim);
 
 			String previousWord = null;
 
@@ -112,9 +117,9 @@ public class Generator {
 	    }
 	    
 		// If mode is "probable", call separate method (logic is different)
-		if (mode.equalsIgnoreCase("probable")) {
-			return getNextProbableWords(seed, k);
-		}
+	    if (mode.equalsIgnoreCase("probable")) {
+	        return getNextProbableWords(seedLower, k);
+	    }
 	    
 		// If other modes, start creating generated string
 		StringBuilder output = new StringBuilder(currentWord);
@@ -150,15 +155,13 @@ public class Generator {
 					int maxFreq = -1;
 					nextWord = null;
 					for (Map.Entry<String,Integer> e : adjWords.entrySet()) {
-					  int freq = e.getValue();
-					  String word  = e.getKey();
-					  if (freq > maxFreq) {
-					    maxFreq = freq;
-					    nextWord = word;
-					  }
-					  else if (freq == maxFreq && word.compareTo(nextWord) < 0) {
-					    nextWord = word;
-					  }
+					    int freq = e.getValue();
+					    String word = e.getKey();
+					    if (freq > maxFreq ||
+					        (freq == maxFreq && (nextWord == null || word.compareTo(nextWord) < 0))) {
+					        maxFreq = freq;
+					        nextWord = word;
+					    }
 					}
 					break;
 					
@@ -192,8 +195,10 @@ public class Generator {
 		HashMap<String, Integer> adjacentList = seedValue.getAdjacentWords();
 		List<Map.Entry<String, Integer>> entryList = new ArrayList<>(adjacentList.entrySet());
 		
-		// Sort the list
-		Collections.sort(entryList, (a, b) -> b.getValue().compareTo(a.getValue()));
+		entryList.sort((a, b) -> {
+		    int cmp = b.getValue().compareTo(a.getValue());   // frequency in descending order
+		    return (cmp != 0) ? cmp : a.getKey().compareTo(b.getKey());  // tie-breaker
+		});
 		
 		// Build resulting string according to the 'k' specified
 		StringBuilder result = new StringBuilder();
