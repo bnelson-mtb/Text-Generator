@@ -57,9 +57,7 @@ public class Generator {
 		// Clear any existing library data
 		library.clear();
 
-		Pattern delim = Pattern.compile(
-			    "[^\\p{L}\\p{N}\\p{Pc}'\\u2018\\u2019]+"   // letters, digits, ANY underscore, apostrophes
-			);
+		Pattern delim = Pattern.compile("[^\\p{L}\\p{N}_']+");
 		
 		try (Scanner scanner = new Scanner(new File(filePath))) {
 			// Set the delimiter pattern
