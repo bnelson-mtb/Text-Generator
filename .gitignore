@@ -23,3 +23,42 @@
 hs_err_pid*
 replay_pid*
 /bin/
+
+# Eclipse project files
+.project
+.classpath
+.settings/
+
+# Eclipse Core
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+
+# Eclipse launch configurations
+*.launch
+
+# Java build output
+*.class
+target/
+
+# Gradle
+.gradle/
+build/
+
+# Maven
+log/
+logs/
+*.log
+
+# Eclipse Core files
+recovery/
+.remote-sync/
+
+# OS-specific junk
+.DS_Store
+Thumbs.db
