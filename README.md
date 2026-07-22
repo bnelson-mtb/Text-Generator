@@ -15,10 +15,15 @@ This program reads an input text file and builds a statistical model of the text
 ## How to Run
 
 1.  Compile the Java files.
+
+    ```powershell
+    javac -d bin src/comprehensive/Generator.java src/comprehensive/TextGenerator.java src/comprehensive/WordEntry.java src/comprehensive/LibraryCreationDistinctWordsTimingExperiment.java src/comprehensive/LibraryCreationFileLengthTimingExperiment.java src/comprehensive/NextKWordsTimingExperiment.java src/timing/*.java
+    ```
+
 2.  Run the `TextGenerator` class from the command line with the following arguments:
 
-    ```
-    java comprehensive.TextGenerator <input_file> <seed_word> <k> <mode>
+    ```powershell
+    java -cp bin comprehensive.TextGenerator <input_file> <seed_word> <k> <mode>
     ```
 
     *   `<input_file>`: The path to the text file to use for building the text generation library.
@@ -28,9 +33,11 @@ This program reads an input text file and builds a statistical model of the text
 
     For example:
 
+    ```powershell
+    java -cp bin comprehensive.TextGenerator data/distinct_1000.txt the 100 random
     ```
-    java comprehensive.TextGenerator distinct_1000.txt the 100 random
-    ```
+
+> Note: `src/comprehensive/GeneratorTester.java` is a JUnit test file and requires JUnit on the classpath. The commands above compile the runtime classes needed for `TextGenerator` and the timing experiments.
 
 ## Project Structure
 
@@ -39,7 +46,7 @@ This program reads an input text file and builds a statistical model of the text
     *   `Generator.java`: The class that handles building the text generation library and generating new text.
     *   `WordEntry.java`: A helper class for storing information about each word in the library.
 *   `src/timing/`: Contains classes for running performance experiments on the text generator.
-*   `*.txt`: Text files used for building the text generation library and for the timing experiments.
+*   `data/*.txt`: Text files used for building the text generation library and for the timing experiments.
 
 ## Timing Experiments
 

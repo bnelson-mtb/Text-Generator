@@ -32,7 +32,7 @@ public class LibraryCreationDistinctWordsTimingExperiment extends TimingExperime
     @Override
     protected void setupExperiment(int problemSize) {
         // Generate a file with `problemSize` unique numeric "words"
-        filePath = "distinct_" + problemSize + ".txt";
+        filePath = "data/distinct_" + problemSize + ".txt";
         try (PrintWriter out = new PrintWriter(new File(filePath))) {
             for (int i = 1; i <= problemSize; i++) {
                 out.print(i + " ");

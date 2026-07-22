@@ -34,7 +34,7 @@ public class LibraryCreationFileLengthTimingExperiment extends TimingExperiment 
     @Override
     protected void setupExperiment(int problemSize) {
         // Generate a file of `problemSize` words cycling through 1..VOCAB_SIZE
-        filePath = "length_" + problemSize + ".txt";
+        filePath = "data/length_" + problemSize + ".txt";
         try (PrintWriter out = new PrintWriter(new File(filePath))) {
             for (int i = 0; i < problemSize; i++) {
                 out.print((i % VOCAB_SIZE + 1) + " ");

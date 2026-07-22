@@ -41,7 +41,7 @@ public class NextKWordsTimingExperiment extends TimingExperiment {
     	this.currentProblemSize = k;
 
         // 1) Generate a fixed‐size input file once per iteration:
-        filePath = "fixed_input.txt";
+        filePath = "data/fixed_input.txt";
         try (PrintWriter out = new PrintWriter(new File(filePath))) {
             for (int i = 0; i < INPUT_WORD_COUNT; i++) {
                 out.print((i % INPUT_VOCAB_SIZE + 1) + " ");
